@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import com.cxytiandi.encrypt.algorithm.AesEncryptAlgorithm;
 import com.cxytiandi.encrypt.algorithm.EncryptAlgorithm;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
@@ -152,7 +151,7 @@ public class EncryptionFilter implements Filter {
         String uri = req.getRequestURI();
         logger.debug("RequestData: {}", requestData);
         try {
-            if (!StringUtils.endsWithIgnoreCase(req.getMethod(), RequestMethod.GET.name())) {
+            if (!req.getMethod().equalsIgnoreCase(RequestMethod.GET.name())) {
                 String decryptRequestData = encryptAlgorithm.decrypt(requestData, encryptionConfig.getKey());
                 logger.debug("DecryptRequestData: {}", decryptRequestData);
                 requestWrapper.setRequestData(decryptRequestData);
